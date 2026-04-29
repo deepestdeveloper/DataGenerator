@@ -5,8 +5,8 @@ namespace DataGenerator
     internal class Program
     {
         private static void Main(string[] args)
-        {
-            Console.WriteLine("DataGenerator hazır. Class1 dosyasını doldurabilirsiniz.");
+        { 
+            Console.WriteLine("DatddaGenerddator hazır. Class1 dosyasını doldurabilirsiniz.");
         }
     }
 }
