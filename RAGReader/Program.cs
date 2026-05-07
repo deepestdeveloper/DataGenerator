@@ -10,7 +10,7 @@ namespace RAGReader
     public class RagRetriever
     {
         private readonly IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
-        private readonly string _connectionString;
+        private readonly string _connectionString; 
 
         public RagRetriever(IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator, string connectionString)
         {
