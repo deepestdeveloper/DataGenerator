@@ -49,7 +49,7 @@ namespace SyntheticDataGenerator
                 await Task.Delay(1200);
             }
 
-            Console.WriteLine("\n🎉 Tüm sentetik veri üretimi tamamlandı!");
+            Console.WriteLine("\n Tüm sentetik veri üretimi tamamlandı!");
         }
 
         // ====================== DOKÜMAN ÜRETME ======================
@@ -95,7 +95,7 @@ namespace SyntheticDataGenerator
             var chatJson = JsonDocument.Parse(chatJsonString).RootElement;
             string content = chatJson.GetProperty("response").GetString() ?? "";
 
-            // Embedding üret - Ollama Embedding API'ye çağrı
+         
             var embeddingRequest = new
             {
                 model = EmbeddingModel,
@@ -127,7 +127,7 @@ namespace SyntheticDataGenerator
             };
         }
 
-        // ====================== SQL INSERT ======================
+    
         private static async Task InsertToSqlServerAsync(FinancialDocument doc)
         {
             using var connection = new SqlConnection(ConnectionString);
