@@ -11,14 +11,14 @@ namespace SyntheticDataGenerator
     {
         // ====================== KONFIGÜRASYON ======================
         private const string OllamaEndpoint = "http://localhost:11434";
-        private const string LlmModel = "llama3.1:8b";           // veya llama3.2
-        private const string EmbeddingModel = "bge-m3";         // 1024 boyutlu
+        private const string LlmModel = "llama3.1:8b";       
+        private const string EmbeddingModel = "bge-m3";        
         private const int VectorDimension = 1024;
 
-        // SQL Server bağlantı string'inizi buraya veya appsettings.json'a koyun
+   
         private const string ConnectionString = "Server=localhost,1433;Database=Orion;User Id=sa;Password=Ggrt190724;TrustServerCertificate=True;";
 
-        private const int TotalDocuments = 100;   // İlk test için 20-30 yapın
+        private const int TotalDocuments = 100;   
 
         static async Task Main(string[] args)
         {
@@ -26,7 +26,7 @@ namespace SyntheticDataGenerator
 
             using var httpClient = new HttpClient();
 
-            var topics = GetSampleTopics();   // Aşağıda tanımlı
+            var topics = GetSampleTopics();   
 
             for (int i = 0; i < TotalDocuments; i++)
             {
@@ -38,21 +38,21 @@ namespace SyntheticDataGenerator
 
                     await InsertToSqlServerAsync(doc);
 
-                    Console.WriteLine($"✅ {i + 1:D3} - {doc.Title.Substring(0, Math.Min(70, doc.Title.Length))}...");
+                    Console.WriteLine($" {i + 1:D3} - {doc.Title.Substring(0, Math.Min(70, doc.Title.Length))}...");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"❌ Hata [{i + 1}]: {ex.Message}");
+                    Console.WriteLine($" Hata [{i + 1}]: {ex.Message}");
                 }
 
-                // Ollama'nın aşırı yüklenmemesi için kısa bekleme
+               
                 await Task.Delay(1200);
             }
 
             Console.WriteLine("\n🎉 Tüm sentetik veri üretimi tamamlandı!");
         }
 
-        // ====================== DOKÜMAN ÜRETME ======================
+     
         private static async Task<FinancialDocument> GenerateDocumentAsync(
             HttpClient httpClient,
             TopicInfo topic)
@@ -80,7 +80,7 @@ namespace SyntheticDataGenerator
                 Sadece metni yaz, başka hiçbir açıklama ekleme.
                 """;
 
-            // İçerik üret - Ollama API'ye çağrı
+         
             var chatRequest = new
             {
                 model = LlmModel,
@@ -95,7 +95,7 @@ namespace SyntheticDataGenerator
             var chatJson = JsonDocument.Parse(chatJsonString).RootElement;
             string content = chatJson.GetProperty("response").GetString() ?? "";
 
-            // Embedding üret - Ollama Embedding API'ye çağrı
+          
             var embeddingRequest = new
             {
                 model = EmbeddingModel,
@@ -127,7 +127,7 @@ namespace SyntheticDataGenerator
             };
         }
 
-        // ====================== SQL INSERT ======================
+    
         private static async Task InsertToSqlServerAsync(FinancialDocument doc)
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -164,16 +164,16 @@ namespace SyntheticDataGenerator
             await command.ExecuteNonQueryAsync();
         }
 
-        // ====================== ÖRNEK KONULAR ======================
+    
        private static List<TopicInfo> GetSampleTopics()
 {
     return new List<TopicInfo>
     {
-        // Önceki örnekler
+       
         new TopicInfo { Title = "Yüksek Enflasyon Ortamında Gram Altın Yatırımı", Topic = "Yüksek enflasyon ortamında gram altın yatırımı", Category = "Altın", SubCategory = "Kıymetli Madenler", RiskLevel = "Düşük", AssetType = "Altın", TargetAudience = "Yeni Başlayan", GoalType = "Enflasyona Karşı Koruma", Keywords = new[] { "gram altın", "enflasyon", "fiziki altın", "tasarruf" } },
         new TopicInfo { Title = "BIST 100 Endeksi ve Sektörel Dağılım Stratejileri", Topic = "BIST 100 endeksi ve sektörel dağılım stratejileri", Category = "Hisse Senetleri", SubCategory = "Borsa", RiskLevel = "Orta", AssetType = "Hisse", TargetAudience = "Orta Seviye", GoalType = "Uzun Vadeli Büyüme", Keywords = new[] { "BIST 100", "sektör rotasyonu", "bankacılık", "enerji sektörü" } },
 
-        // ====================== YENİ 30 KONU ======================
+    
         new TopicInfo { Title = "Türkiye'de Altın Fonları ve ETF'ler Karşılaştırması", Topic = "Altın fonları ve ETF'ler", Category = "Altın", SubCategory = "Yatırım Araçları", RiskLevel = "Düşük", AssetType = "Fon", TargetAudience = "Yeni Başlayan", GoalType = "Enflasyona Karşı Koruma", Keywords = new[] { "altın fonu", "ETF", "TEFAS" } },
         new TopicInfo { Title = "Enflasyon Muhasebesi ve Bireysel Yatırımcı Etkileri", Topic = "Enflasyon muhasebesi", Category = "Makroekonomi", SubCategory = "Enflasyon", RiskLevel = "Düşük", AssetType = "", TargetAudience = "Orta Seviye", GoalType = "Bilgi", Keywords = new[] { "enflasyon muhasebesi", "TÜFE", "satın alma gücü" } },
         new TopicInfo { Title = "BIST'te Bankacılık Sektörü 2026 Değerlendirmesi", Topic = "Bankacılık sektörü", Category = "Hisse Senetleri", SubCategory = "Sektör Analizi", RiskLevel = "Orta", AssetType = "Hisse", TargetAudience = "Deneyimli", GoalType = "Büyüme", Keywords = new[] { "banka hisseleri", "faiz", "karlılık" } },
@@ -211,7 +211,6 @@ namespace SyntheticDataGenerator
 }
     }
 
-    // ====================== MODEL SINIFLARI ======================
     public class FinancialDocument
     {
         public string Title { get; set; } = string.Empty;
