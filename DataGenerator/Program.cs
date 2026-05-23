@@ -9,13 +9,13 @@ namespace SyntheticDataGenerator
 {
     class Program
     {
-        // ====================== KONFIGÜRASYON ======================
+      
         private const string OllamaEndpoint = "http://localhost:11434";
-        private const string LlmModel = "llama3.1:8b";           // veya llama3.2
-        private const string EmbeddingModel = "bge-m3";         // 1024 boyutlu
+        private const string LlmModel = "llama3.1:8b";           
+        private const string EmbeddingModel = "bge-m3";        
         private const int VectorDimension = 1024;
 
-        // SQL Server bağlantı string'inizi buraya veya appsettings.json'a koyun
+  
         private const string ConnectionString = "Server=localhost,1433;Database=Orion;User Id=sa;Password=Ggrt190724;TrustServerCertificate=True;";
 
         private const int TotalDocuments = 100;   
@@ -26,7 +26,7 @@ namespace SyntheticDataGenerator
 
             using var httpClient = new HttpClient();
 
-            var topics = GetSampleTopics();   // Aşağıda tanımlı
+            var topics = GetSampleTopics();   
 
             for (int i = 0; i < TotalDocuments; i++)
             {
@@ -38,14 +38,14 @@ namespace SyntheticDataGenerator
 
                     await InsertToSqlServerAsync(doc);
 
-                    Console.WriteLine($"✅ {i + 1:D3} - {doc.Title.Substring(0, Math.Min(70, doc.Title.Length))}...");
+                    Console.WriteLine($" {i + 1:D3} - {doc.Title.Substring(0, Math.Min(70, doc.Title.Length))}...");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"❌ Hata [{i + 1}]: {ex.Message}");
+                    Console.WriteLine($" Hata [{i + 1}]: {ex.Message}");
                 }
 
-                // Ollama'nın aşırı yüklenmemesi için kısa bekleme
+           
                 await Task.Delay(1200);
             }
 
@@ -211,7 +211,7 @@ namespace SyntheticDataGenerator
 }
     }
 
-    // ====================== MODEL SINIFLARI ======================
+
     public class FinancialDocument
     {
         public string Title { get; set; } = string.Empty;
